@@ -34,7 +34,7 @@ class Board
         self[[7,column]] = Queen.new(self, :white, [7, column])
 
       else
-        self[]([0,column]) = King.new(self, :black, [0, column])
+        self[[0,column]] = King.new(self, :black, [0, column])
         self[[7,column]] = King.new(self, :white, [7, column])
       end
 
@@ -43,9 +43,17 @@ class Board
   end
 
 
+  def render
+    @board.map do |row|
+      row.map do |pos|
+        pos.nil? ? " " : pos.render
+      end.join("")
+    end
+  end
 
-
-
+  def display
+    puts render
+  end
 
 
 

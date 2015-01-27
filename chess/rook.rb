@@ -12,8 +12,8 @@ class Rook < SlidingPiece
               [1, 0]]
 
 
+
+  def render
+    @color == :black ? "♜" : "♖"
   end
-
-
-# ♖ white rook
-# ♜ black rook
+end

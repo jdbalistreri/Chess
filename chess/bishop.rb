@@ -10,8 +10,9 @@ class Bishop < SlidingPiece
 
     [1, -1],            [1, 1] ]
 
-
+  def render
+    @color == :black ? "♝" : "♗"
   end
 
-  #♗ white bishop
-  #♝ black bishop
+end
+  

@@ -36,8 +36,4 @@ class Piece
 
   end
 
-  def render
-
-  end
-
 end

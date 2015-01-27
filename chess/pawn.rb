@@ -33,7 +33,7 @@ class Pawn < Piece
     possible_moves
   end
 
+  def render
+    @color == :black ? "♟" : "♙"
+  end
 end
-
-#♙ white pawn
-#♟ black pawn
