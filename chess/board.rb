@@ -55,8 +55,54 @@ class Board
     puts render
   end
 
+  def move(start, end_pos)
+    piece = self[*start]
 
+    if piece.nil?
+      raise ArgumentError.new "There is no piece at your start coordinate."
+    elsif !piece.moves.include?(end_pos)
+      raise ArgumentError.new "Not a valid move, change your end position."
 
+    else
+      self[start] = nil
+      self[end_pos] = piece
+      piece.coordinates = end_pos
+    end
+
+    nil
+  end
+
+  def in_check?(color)
+    kings_position = nil
+
+    each_pos do |pos|
+      if pos.is_a?(King) && pos.color == color
+        kings_position = pos.coordinates
+        break
+      end
+    end
+
+    kings_position
+
+    each_pos do |pos|
+      if !pos.nil? && pos.color != color
+        return true if pos.moves.include?(kings_position)
+      end
+    end
+
+    false
+  end
+
+  def each_pos(&prc)
+    @board.each do |row|
+      row.each do |value|
+        prc.call(value)
+      end
+    end
+  end
+
+  ####THIS COULD BE REFACTORED TO MAKE SURE THEY ARE CONSISTENT INPUT FORMATS!!!
+  #*!*!*!*!*!*!**!*!
   def [](y,x)
     @board[y][x]
   end
@@ -66,13 +112,8 @@ class Board
     @board[y][x] = value
   end
 
-  def in_check?(color)
 
-  end
 
-  def move(start, end_pos)
-  #raise exception if no piece at the start pos and if piece can't move to end pos
-  end
 
   def dup
     #creates a current copy of the board

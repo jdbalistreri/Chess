@@ -2,6 +2,7 @@
 require_relative("chess.rb")
 
 class Piece
+  attr_accessor :coordinates
   attr_reader :color
 
   def initialize(board = nil, color = nil, coordinates = nil)
