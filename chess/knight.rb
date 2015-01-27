@@ -14,3 +14,6 @@ class Knight < SteppingPiece
           [-1,-2]]
 
 end
+
+#♘ white knight
+#♞ black knight

@@ -21,6 +21,15 @@ class Piece
     end
   end
 
+  def opposing_piece?(y, x)
+    piece = @board[y,x]
+    !piece.nil? && piece.color != @color
+  end
+
+  def empty_spot?(y, x)
+    @board[y,x].nil?
+  end
+
   def move_into_check?(pos)
 
   end

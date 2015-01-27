@@ -13,3 +13,7 @@ class Queen < SlidingPiece
 
 
 end
+
+
+# ♛ black queen
+# ♕ white queen

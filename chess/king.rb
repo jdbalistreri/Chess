@@ -13,3 +13,6 @@ class King < SteppingPiece
     [1, -1],  [1, 0],  [1, 1] ]
 
 end
+
+#♚ black king
+#♔ white king

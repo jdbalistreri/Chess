@@ -13,3 +13,7 @@ class Rook < SlidingPiece
 
 
   end
+
+
+# ♖ white rook
+# ♜ black rook
