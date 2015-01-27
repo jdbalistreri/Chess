@@ -74,6 +74,10 @@ class HumanPlayer
   end
 
 
+  def valid_length?(inputted_length)
+    inputted_length.between?(1,20)
+  end
+
   def handle_guess_response(guess, known_letters)
     loop do
       puts "Player guessed #{guess}"
@@ -93,15 +97,16 @@ class HumanPlayer
   def clean_positions(positions)
     positions.split(" ").map{|position| position.to_i - 1}
   end
-  #guesser methods
 
-  def guess(known_letters)
-    # loop do
-    #   print "Guess a letter: "
-    #   inputted_guess = gets.chomp
-    #   return inputted_guess.upcase if valid_guess?(inputted_guess)
-    #   puts "Invalid guess, try again!"
-    # end
+  def guess(known_letters) #this method does not use known letters
+    print "Guess a letter: "
+
+    valid_guess?(gets.chomp)
+  rescue ArgumentError => e
+    puts "Did not receive a valid guess"
+    puts "Error was: #{e.message}"
+
+    retry
   end
 
 
@@ -116,9 +121,6 @@ class HumanPlayer
       end
     end
 
-    def valid_length?(inputted_length)
-      inputted_length.between?(1,20)
-    end
 end
 
 
