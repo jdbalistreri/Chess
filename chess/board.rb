@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "colorize"
 require_relative("chess.rb")
 
 class Board
@@ -44,9 +45,16 @@ class Board
 
 
   def render
+    tile_count = 0
+
     @board.map do |row|
+      tile_count += 1
+
       row.map do |pos|
-        pos.nil? ? " " : pos.render
+        tile_count += 1
+
+        string = pos.nil? ? " " : pos.render
+        tile_count.odd? ? string.colorize(background: :green) : string
       end.join("")
     end
   end
@@ -121,6 +129,10 @@ class Board
 
   def checkmate?(color)
 
+  end
+
+  def string
+    puts "string".colorize(background: :green)
   end
 
 end
