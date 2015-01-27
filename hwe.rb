@@ -96,19 +96,24 @@ class HumanPlayer
   #guesser methods
 
   def guess(known_letters)
-    loop do
-      print "Guess a letter: "
-      inputted_guess = gets.chomp
-      return inputted_guess.upcase if valid_guess?(inputted_guess)
-      puts "Invalid guess, try again!"
-    end
+    # loop do
+    #   print "Guess a letter: "
+    #   inputted_guess = gets.chomp
+    #   return inputted_guess.upcase if valid_guess?(inputted_guess)
+    #   puts "Invalid guess, try again!"
+    # end
   end
 
 
   private
 
     def valid_guess?(inputted_guess)
-      (inputted_guess.length == 1) && !!(/[a-zA-Z]/ =~ inputted_guess)
+      if (inputted_guess.length != 1)
+        raise ArgumentError.new "Guesses may only be one letter!"
+
+      elsif !(/[a-zA-Z]/ =~ inputted_guess)
+        raise ArgumentError.new "Guess must be a valid letter!"
+      end
     end
 
     def valid_length?(inputted_length)
