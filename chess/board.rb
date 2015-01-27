@@ -1,3 +1,4 @@
+# encoding: utf-8
 require_relative("chess.rb")
 
 class Board
@@ -18,6 +19,11 @@ class Board
 
   def [](y,x)
     @board[y][x]
+  end
+
+  def []=(pos, value)
+    y, x = pos
+    @board[y][x] = value
   end
 
   def in_check?(color)

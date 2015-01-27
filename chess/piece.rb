@@ -1,12 +1,13 @@
+# encoding: utf-8
 require_relative("chess.rb")
 
 class Piece
   attr_reader :color
 
-  def initialize(board, color, coordinates)
-    @board = board
-    @color = color
-    @coordinates = coordinates
+  def initialize(board = nil, color = nil, coordinates = nil)
+    @board = board || Board.new
+    @color = color || "white"
+    @coordinates = coordinates || [4,4]
   end
 
   def moves(possible_moves)
