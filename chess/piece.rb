@@ -22,11 +22,13 @@ class Piece
   end
 
   def opposing_piece?(y, x)
+    return false unless [y,x].all? { |el| el.between?(0,7) }
     piece = @board[y,x]
     !piece.nil? && piece.color != @color
   end
 
   def empty_spot?(y, x)
+    return false unless [y,x].all? { |el| el.between?(0,7) }
     @board[y,x].nil?
   end
 

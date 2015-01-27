@@ -6,16 +6,48 @@ class Board
   attr_reader :board
 
   def initialize
-    @board = Array.new(8) { Array.new(8) }
+    @board = board = Array.new(8) { Array.new(8) }
+    fill_new_game
   end
 
-  # def my_map(&prc)
-  #   @board.map! do |row|
-  #     row.map! do |pos|
-  #       prc.call
-  #     end
-  #   end
-  # end
+
+  def fill_new_game
+
+    @board.length.times do |column|
+      self[1,column] = Pawn.new(self,:black, [1, column])
+      self[6,column] = Pawn.new(self,:white, [6, column])
+
+      if column == 0 || column == 7
+        self[0,column] = Rook.new(self, :black, [0, column])
+        self[7,column] = Rook.new(self, :white, [7, column])
+
+      elsif column == 1 || column == 6
+        self[0,column] = Knight.new(self, :black, [0, column])
+        self[7,column] = Knight.new(self, :white, [7, column])
+
+      elsif column == 2 || column == 5
+        self[0,column] = Bishop.new(self, :black, [0, column])
+        self[7,column] = Bishop.new(self, :white, [7, column])
+
+      elsif column == 3
+        self[0,column] = Queen.new(self, :black, [0, column])
+        self[7,column] = Queen.new(self, :white, [7, column])
+
+      else
+        self[0,column] = King.new(self, :black, [0, column])
+        self[7,column] = King.new(self, :white, [7, column])
+      end
+
+    end
+
+  end
+
+
+
+
+
+
+
 
   def [](y,x)
     @board[y][x]
