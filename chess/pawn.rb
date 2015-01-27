@@ -1,1 +1,1 @@
-require_relative("piece.rb")
+require_relative("chess.rb")

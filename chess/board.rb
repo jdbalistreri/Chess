@@ -3,7 +3,11 @@ require_relative("chess.rb")
 class Board
 
   def initialize
+    @board = Array.new(8) { Array.new(8) }
+  end
 
+  def [](y,x)
+    @board[y][x]
   end
 
   def in_check?(color)

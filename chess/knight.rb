@@ -1,1 +1,22 @@
-require_relative("stepping_piece.rb")
+require_relative("chess.rb")
+
+
+class Knight < SteppingPiece
+
+  DELTAS = [[2,1],
+          [2,-1],
+          [-2,1],
+          [-2,-1],
+          [1,2],
+          [1,-2],
+          [-1,2],
+          [-1,-2]]
+
+  def initialize(board, color, coordinates)
+    super
+  end
+
+
+
+
+end

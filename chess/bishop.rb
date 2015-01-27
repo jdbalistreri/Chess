@@ -1,1 +1,1 @@
-require_relative("sliding_piece.rb")
+require_relative("chess.rb")
