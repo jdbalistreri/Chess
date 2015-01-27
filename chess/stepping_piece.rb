@@ -1,16 +1,10 @@
 require_relative("chess.rb")
 
 class SteppingPiece < Piece
-
-  def initialize(board, color, coordinates)
-    super
-  end
-
+  
   def moves
-    check_deltas_against_board(generate_deltas)
+    super(generate_deltas)
   end
-
-
 
   def generate_deltas
     possible_moves = []
