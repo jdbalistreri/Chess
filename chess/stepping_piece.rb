@@ -6,17 +6,24 @@ class SteppingPiece < Piece
     super
   end
 
-  def moves(possible_moves) #this will slide in each direction until invalid move
-    check_deltas_against_board(possible_moves)
+  def moves
+    check_deltas_against_board(generate_deltas)
   end
 
-  def check_deltas_against_board(possible_moves)
-    possible_moves.select do |pos|
-      pos_contains = @board[*pos]
-      if pos_contains.nil?
-        true
-      elsif pos_contains.color
+
+
+  def generate_deltas
+    possible_moves = []
+    curr_y, curr_x = @coordinates
+
+    self.class::DELTAS.each do |(dy, dx)|
+      new_y, new_x = curr_y + dy, curr_x + dx
+      next if [new_y, new_x].any? { |coord| !coord.between?(0,7) }
+
+      possible_moves << [new_y, new_x]
     end
+
+    possible_moves
   end
 
 end

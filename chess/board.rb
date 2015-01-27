@@ -2,9 +2,19 @@ require_relative("chess.rb")
 
 class Board
 
+  attr_reader :board
+
   def initialize
     @board = Array.new(8) { Array.new(8) }
   end
+
+  # def my_map(&prc)
+  #   @board.map! do |row|
+  #     row.map! do |pos|
+  #       prc.call
+  #     end
+  #   end
+  # end
 
   def [](y,x)
     @board[y][x]
