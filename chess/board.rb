@@ -17,4 +17,9 @@ class Board
   def dup
     #creates a current copy of the board
   end
+
+  def checkmate?(color)
+
+  end
+
 end
