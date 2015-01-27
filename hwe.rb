@@ -65,17 +65,22 @@ class HumanPlayer
   end
 
   def tell_secret_length
-    loop do
-      print "What is your word's length?  "
-      @secret_length = (gets.chomp).to_i
-      return @secret_length if valid_length?(@secret_length)
-      puts "Invalid length, try again!"
-    end
+    print "What is your word's length?"
+      @secret_length = valid_length?(gets.chomp)
+  rescue ArgumentError => e
+    puts e.message
+    retry
   end
 
 
-  def valid_length?(inputted_length)
-    inputted_length.between?(1,20)
+  def valid_length?(input)
+    length = Integer(input)
+    if input.empty?
+      raise ArgumentError.new "Cannot be empty!"
+
+    elsif length > 20
+      raise ArgumentError.new "Can't have such a big word!"
+    end
   end
 
   def handle_guess_response(guess, known_letters)
