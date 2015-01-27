@@ -17,7 +17,7 @@ class Knight < SteppingPiece
   end
 
   def moves
-
+    super(generate_deltas)
   end
 
   def generate_deltas

@@ -1,7 +1,8 @@
 require_relative("chess.rb")
 
 class Piece
-
+  attr_reader :color
+  
   def initialize(board, color, coordinates)
     @board = board
     @color = color

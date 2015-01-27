@@ -6,12 +6,17 @@ class SteppingPiece < Piece
     super
   end
 
-  def moves(move_positions) #this will slide in each direction until invalid move
-    #make sure we can take the opponent's piece
+  def moves(possible_moves) #this will slide in each direction until invalid move
+    check_deltas_against_board(possible_moves)
   end
 
-  def check_deltas_against_board
-
+  def check_deltas_against_board(possible_moves)
+    possible_moves.select do |pos|
+      pos_contains = @board[*pos]
+      if pos_contains.nil?
+        true
+      elsif pos_contains.color
+    end
   end
 
 end
