@@ -11,6 +11,10 @@ class Piece
   def moves
 
   end
+  
+  def move_into_check?(pos)
+
+  end
 
   def render
 
