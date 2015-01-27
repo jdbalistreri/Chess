@@ -7,8 +7,8 @@ class Pawn < Piece
   def initialize(board, color, coordinates)
     super
 
-    @dy = color == :black ? 1 : -1
-    @start_row = color == :black ? 1 : 6
+    @dy = color == :black ? -1 : 1
+    @start_row = color == :black ? 6 : 1
   end
 
   def moves

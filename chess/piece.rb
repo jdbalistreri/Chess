@@ -6,7 +6,7 @@ class Piece
 
   def initialize(board = nil, color = nil, coordinates = nil)
     @board = board || Board.new
-    @color = color || "white"
+    @color = color || :white
     @coordinates = coordinates || [4,4]
   end
 
