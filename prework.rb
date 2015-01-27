@@ -1,16 +1,14 @@
 
 class Employee
 
+  attr_reader :salary
+
   def initialize(title, salary, boss)
     @title, @salary, @boss = title, salary, boss
   end
 
   def bonus(multiplier)
     @salary * multiplier
-  end
-
-  def total_salaries_below
-    @salary
   end
 
 end
@@ -29,10 +27,11 @@ class Manager < Employee
   end
 
   def total_salaries_below
-    total_salaries = @salary
+    total_salaries = 0
 
     @employee_list.each do |employee|
-      total_salaries += employee.total_salaries_below
+      total_salaries += employee.salary
+      total_salaries += employee.total_salaries_below if employee.is_a?(Manager)
     end
 
     total_salaries
