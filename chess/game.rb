@@ -9,7 +9,7 @@ class Game
     @player2 = HumanPlayer.new("Joe", :black)
   end
 
-  def play
+  def terminal_play
     @current_player = @player1
 
     until @board.game_over?
@@ -33,9 +33,26 @@ class Game
 
   end
 
+  def dispel_play
+    @current_player = @player1
+  end
+
+  def handle_dispel_move(start_pos, end_pos)
+    begin
+      @board.move(start_pos, end_pos, @current_player.piece_color)
+    rescue ArgumentError => e
+      toggle_player
+    end
+    toggle_player
+    nil
+  end
+
+  def check_start(start_pos)
+    @board.check_start(start_pos, @current_player.piece_color)
+  end
+
   def toggle_player
     @current_player = @current_player == @player1 ? @player2 : @player1
   end
-
 
 end

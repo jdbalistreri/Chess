@@ -24,10 +24,12 @@ class Pawn < Piece
     possible_moves << first_diag if opposing_piece?(*first_diag)
     possible_moves << second_diag if opposing_piece?(*second_diag)
 
-    possible_moves << one_move_ahead if empty_spot?(*one_move_ahead)
+    if empty_spot?(*one_move_ahead)
+      possible_moves << one_move_ahead
 
-    if empty_spot?(*two_moves_ahead) && curr_y == @start_row
-      possible_moves << two_moves_ahead
+      if empty_spot?(*two_moves_ahead) && curr_y == @start_row
+        possible_moves << two_moves_ahead
+      end
     end
 
     possible_moves

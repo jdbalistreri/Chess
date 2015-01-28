@@ -2,6 +2,8 @@ require ("dispel")
 require_relative ("chess.rb")
 
 class ChessConsole
+  attr_reader :square_selected, :highlighted_positions
+
   def initialize
     @game = Game.new
     @board = @game.board
@@ -13,29 +15,26 @@ class ChessConsole
   end
 
   def run
+    @game.dispel_play
 
     y, x = 3, 4
 
     Dispel::Screen.open(:colors => true) do |screen|
-       # number of lines
-
-
       screen.draw(draw_board, map, [y,x])
-
-      #Dispel::Keyboard.output { break }
 
       Dispel::Keyboard.output do |key|
         case key
         when :"Ctrl+c" then break
-        when :left then x -= 3
-        when :right then x += 3
-        when :up then y -= 1
-        when :down then y += 1
+        when :left then x -= 3 unless x <= 4
+        when :right then x += 3 unless x >=24
+        when :up then y -= 1 unless y <= 0
+        when :down then y += 1 unless y >= 7
         when :enter then process_move(y,x)
         end
-        screen.draw(draw_board, map, [y,x])
-      end
 
+        screen.draw(draw_board, map, [y,x])
+        break if @board.game_over?
+      end
     end
   end
 
@@ -48,9 +47,9 @@ class ChessConsole
       end
 
       if @square_selected
-        # @highlighted_positions.each do |(y,x)|
-        #   output.add(["#000000", "#70B8FF"], y, (x-1)..(x+1) )
-        # end
+        @highlighted_positions.each do |(y,x)|
+          output.add(["#000000", "#70B8FF"], y, (x-1)..(x+1) )
+        end
         output.add(["#000000", "#70B8FF"], @selected_y, (@selected_x-1)..(@selected_x+1) )
       end
     end
@@ -58,30 +57,30 @@ class ChessConsole
   end
 
 
-  def process_move(y,x)
+  def process_move(disp_y,disp_x)
     toggle_select
 
     if @square_selected
-      @start_pos = parse_from_display(y,x)
-      @board.check_start(@start_pos, :white)
+      @start_pos = parse_from_display(disp_y,disp_x)
+      @game.check_start(@start_pos)
 
-      @highlighted_positions = [[y,x]]
-      # other_positions = @board[*@start_pos].valid_moves.map do |pos|
-      #   parse_to_display(pos)
-      # end
+      @highlighted_positions = [[disp_y,disp_x]]
+      other_positions = @board[*@start_pos].valid_moves.map do |pos|
+        parse_to_display(*pos)
+      end
 
-      #@highlighted_positions << other_positions
+      @highlighted_positions += other_positions
 
-      @selected_x = x
-      @selected_y = y
+      @selected_x = disp_x
+      @selected_y = disp_y
     else
-      @end_pos = parse_from_display(y,x)
-      @board.move(@start_pos, @end_pos, :white)
+      @end_pos = parse_from_display(disp_y,disp_x)
+      @game.handle_dispel_move(@start_pos, @end_pos)
     end
 
-  # rescue ArgumentError => e
-    #do something with the error
-    # @square_selected = false
+  rescue ArgumentError => e
+    # puts e
+    @square_selected = false
   end
 
   def parse_from_display(y,x)
@@ -98,6 +97,8 @@ class ChessConsole
   end
 
 end
+
+
 
 if __FILE__ == $PROGRAM_NAME
   console = ChessConsole.new
