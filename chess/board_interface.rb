@@ -6,12 +6,32 @@ class ChessConsole
 
   def initialize
     @game = Game.new
-    @board = @game.board
     @square_selected = false
   end
 
   def draw_board
-    @board.render(false).join("\n")
+    display_strings = default_board
+    if @game.board.game_over?
+      display_strings << "Checkmate!"
+      display_strings << "Play Again? Y/N."
+    elsif @game.in_check?
+      display_strings << "Check!"
+    end
+    5.times { display_strings << "" }
+    display_strings.join("\n")
+  end
+
+  def start_board
+    display_strings = default_board
+    10.times { display_strings << "" }
+    display_strings << "Use arrow keys to move and [enter] to select."
+    display_strings.join("\n")
+  end
+
+  def default_board
+    display_strings = @game.board.render(false)
+    display_strings << "#{@game.current_player.piece_color.to_s.capitalize}'s Move."
+    display_strings
   end
 
   def run
@@ -20,7 +40,7 @@ class ChessConsole
     y, x = 3, 4
 
     Dispel::Screen.open(:colors => true) do |screen|
-      screen.draw(draw_board, map, [y,x])
+      screen.draw(start_board, map, [y,x])
 
       Dispel::Keyboard.output do |key|
         case key
@@ -30,16 +50,17 @@ class ChessConsole
         when :up then y -= 1 unless y <= 0
         when :down then y += 1 unless y >= 7
         when :enter then process_move(y,x)
+        when "y" then @game = Game.new if @game.board.game_over?
+        when "n" then break if @game.board.game_over?
         end
 
         screen.draw(draw_board, map, [y,x])
-        break if @board.game_over?
       end
     end
   end
 
   def map
-    output = Dispel::StyleMap.new(9)
+    output = Dispel::StyleMap.new(8)
     (0..7).each do |line|
       (0..7).each do |row|
         output.add(["#000000", "#63bf5a"], line, (row*3+3)..(row*3+5) ) if (line + row).odd?
@@ -65,7 +86,7 @@ class ChessConsole
       @game.check_start(@start_pos)
 
       @highlighted_positions = [[disp_y,disp_x]]
-      other_positions = @board[*@start_pos].valid_moves.map do |pos|
+      other_positions = @game.board[*@start_pos].valid_moves.map do |pos|
         parse_to_display(*pos)
       end
 

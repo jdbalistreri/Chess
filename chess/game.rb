@@ -1,17 +1,16 @@
 require_relative('chess.rb')
 
 class Game
-  attr_reader :board
+  attr_reader :board, :current_player
 
   def initialize
     @board = Board.new
     @player1 = HumanPlayer.new("Karthik", :white)
     @player2 = HumanPlayer.new("Joe", :black)
+    @current_player = @player1
   end
 
   def terminal_play
-    @current_player = @player1
-
     until @board.game_over?
       @board.display
       puts "#{@current_player.piece_color.to_s.capitalize}'s turn"
@@ -45,6 +44,10 @@ class Game
     end
     toggle_player
     nil
+  end
+
+  def in_check?
+    @board.in_check?(@current_player.piece_color)
   end
 
   def check_start(start_pos)
