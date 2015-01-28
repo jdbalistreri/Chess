@@ -57,7 +57,7 @@ class Board
 
   end
 
-  def render
+  def render(colors = true)
     tile_count = 0
     row_num = 9
 
@@ -68,12 +68,15 @@ class Board
         tile_count += 1
 
         string = pos.nil? ? "   " : pos.render
-        tile_count.odd? ? string.colorize(background: :green) : string.colorize(background: :white)
+        if colors
+          string = tile_count.odd? ? string.colorize(background: :green) : string.colorize(background: :white)
+        end
+        string
       end.join("")
 
       row_num -= 1
 
-      "#{row_num}  #{row_string}"
+      "  #{row_num}#{row_string}"
     end
 
     board_array << "    #{("A".."H").to_a.join("  ")}"
@@ -93,13 +96,19 @@ class Board
     nil
   end
 
+  def check_start(start_pos, player_color)
+    if self[*start_pos].nil?
+      raise ArgumentError.new "You cannot move from an empty square."
+    elsif self[*start_pos].color != player_color
+      raise ArgumentError.new "This is the wrong color piece."
+    end
+  end
+
   def move(start, end_pos, player_color)
     piece = self[*start]
 
     if piece.nil?
       raise ArgumentError.new "There is no piece at your start coordinate."
-    elsif piece.color != player_color
-      raise ArgumentError.new "This is the wrong color piece."
     elsif !piece.moves.include?(end_pos)
       raise ArgumentError.new "That piece is unable to move to your end position."
     elsif !piece.valid_moves.include?(end_pos)

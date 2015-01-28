@@ -14,3 +14,4 @@ require_relative("human_player.rb")
 require_relative("computer_player.rb")
 
 require_relative("game.rb")
+require_relative("board_interface.rb")

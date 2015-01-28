@@ -2,9 +2,13 @@ GEM
   remote: https://rubygems.org/
   specs:
     colorize (0.7.5)
+    curses (1.0.1)
+    dispel (0.0.7)
+      curses
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   colorize
+  dispel
