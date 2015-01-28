@@ -11,6 +11,10 @@ class Piece
     @coordinates = coordinates || [4,4]
   end
 
+  def inspect
+    "#{self.color.to_s.capitalize} #{self.class.to_s.capitalize}"
+  end
+
   def valid_moves
     self.moves.select do |move|
       board_clone = @board.dup

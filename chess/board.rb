@@ -4,11 +4,19 @@ require_relative("chess.rb")
 
 class Board
 
-  attr_reader :board
+  attr_reader :board, :graveyard
 
   def initialize(empty = false)
     @board = board = Array.new(8) { Array.new(8) }
     fill_new_game unless empty
+    @graveyard = []
+  end
+
+  def white_graveyard
+    @graveyard.select { |piece| piece.color == :white }.map(&:render)
+  end
+  def black_graveyard
+    @graveyard.select { |piece| piece.color == :black }.map(&:render)
   end
 
   def game_over?
@@ -89,6 +97,9 @@ class Board
 
   def move!(start, end_pos)
     piece = self[*start]
+    taken_piece = self[*end_pos]
+
+    @graveyard << taken_piece unless taken_piece.nil?
 
     self[start], self[end_pos] = nil, piece
     piece.coordinates = end_pos unless piece.nil?
