@@ -31,8 +31,10 @@ class ChessConsole
   def default_board
     display_strings = @game.board.render(false)
     display_strings << "#{@game.current_player.piece_color.to_s.capitalize}'s Move."
-    display_strings[0] = display_strings[0] + @game.board.black_graveyard.join("")
-    display_strings[7] = display_strings[7] + @game.board.white_graveyard.join("")
+    display_strings[0] = display_strings[0] + " " + @game.board.black_graveyard_other.join(" ")
+    display_strings[1] = display_strings[1] + " " + @game.board.black_graveyard_pawns.join(" ")
+    display_strings[6] = display_strings[6] + " " + @game.board.white_graveyard_other.join(" ")
+    display_strings[7] = display_strings[7] + " " + @game.board.white_graveyard_pawns.join(" ")
     display_strings
   end
 

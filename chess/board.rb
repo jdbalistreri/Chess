@@ -12,11 +12,20 @@ class Board
     @graveyard = []
   end
 
-  def white_graveyard
-    @graveyard.select { |piece| piece.color == :white }.map(&:render)
+  def white_graveyard_pawns
+    @graveyard.select { |piece| piece.color == :white && piece.class == Pawn }.map(&:render).map(&:strip)
   end
-  def black_graveyard
-    @graveyard.select { |piece| piece.color == :black }.map(&:render)
+
+  def white_graveyard_other
+    @graveyard.select { |piece| piece.color == :white && piece.class != Pawn }.map(&:render).map(&:strip)
+  end
+
+  def black_graveyard_pawns
+    @graveyard.select { |piece| piece.color == :black && piece.class == Pawn }.map(&:render).map(&:strip)
+  end
+
+  def black_graveyard_other
+    @graveyard.select { |piece| piece.color == :black && piece.class != Pawn }.map(&:render).map(&:strip)
   end
 
   def game_over?
