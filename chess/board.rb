@@ -76,28 +76,21 @@ class Board
   def move!(start, end_pos)
     piece = self[*start]
 
-    if piece.nil?
-      raise ArgumentError.new "There is no piece at your start coordinate."
-    elsif !piece.moves.include?(end_pos)
-      raise ArgumentError.new "Not a valid move, change your end position."
-
-    else
-      self[start] = nil
-      self[end_pos] = piece
-      piece.coordinates = end_pos
-    end
+    self[start], self[end_pos] = nil, piece
+    piece.coordinates = end_pos unless piece.nil?
 
     nil
   end
 
   def move(start, end_pos)
     piece = self[*start]
-    
+
     if piece.nil?
       raise ArgumentError.new "There is no piece at your start coordinate."
+    elsif !piece.moves.include?(end_pos)
+      raise ArgumentError.new "That piece is unable to move to your end position."
     elsif !piece.valid_moves.include?(end_pos)
-      raise ArgumentError.new "Not a valid move, change your end position."
-
+      raise ArgumentError.new "Illegal move. You cannot leave/put your King in check."
     else
       move!(start,end_pos)
     end

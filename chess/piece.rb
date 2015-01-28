@@ -14,7 +14,7 @@ class Piece
   def valid_moves
     self.moves.select do |move|
       board_clone = @board.dup
-      board_clone.move!(coordinates,move!)
+      board_clone.move!(coordinates,move)
 
       !board_clone.in_check?(color)
     end
