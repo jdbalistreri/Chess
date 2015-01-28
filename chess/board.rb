@@ -6,11 +6,21 @@ class Board
 
   attr_reader :board
 
-  def initialize
+  def initialize(empty = false)
     @board = board = Array.new(8) { Array.new(8) }
-    fill_new_game
+    fill_new_game unless empty
   end
 
+  def dup
+    new_board = Board.new(true)
+
+    self.each_pos do |piece|
+      next if piece.nil?
+
+      new_board[piece.coordinates] = piece.class.new(new_board, piece.color, piece.coordinates.dup)
+    end
+    new_board
+  end
 
   def fill_new_game
 
@@ -123,9 +133,7 @@ class Board
 
 
 
-  def dup
-    #creates a current copy of the board
-  end
+
 
   def checkmate?(color)
 

@@ -11,11 +11,13 @@ class Piece
     @coordinates = coordinates || [4,4]
   end
 
+  def valid_moves
+
   def moves(possible_moves)
-    valid_moves(possible_moves)
+    prune_moves(possible_moves)
   end
 
-  def valid_moves(possible_moves)
+  def prune_moves(possible_moves)
     possible_moves.select do |pos|
       pos_value = @board[*pos]
       pos_value.nil? || !(pos_value.color == @color)
