@@ -59,17 +59,25 @@ class Board
 
   def render
     tile_count = 0
+    row_num = 9
 
-    @board.map do |row|
+    board_array = @board.map do |row|
       tile_count += 1
 
-      row.map do |pos|
+      row_string = row.map do |pos|
         tile_count += 1
 
-        string = pos.nil? ? " " : pos.render
-        tile_count.odd? ? string.colorize(background: :green) : string
+        string = pos.nil? ? "   " : pos.render
+        tile_count.odd? ? string.colorize(background: :green) : string.colorize(background: :white)
       end.join("")
+
+      row_num -= 1
+
+      "#{row_num}  #{row_string}"
     end
+
+    board_array << "    #{("A".."H").to_a.join("  ")}"
+
   end
 
   def display
@@ -85,11 +93,13 @@ class Board
     nil
   end
 
-  def move(start, end_pos)
+  def move(start, end_pos, player_color)
     piece = self[*start]
 
     if piece.nil?
       raise ArgumentError.new "There is no piece at your start coordinate."
+    elsif piece.color != player_color
+      raise ArgumentError.new "This is the wrong color piece."
     elsif !piece.moves.include?(end_pos)
       raise ArgumentError.new "That piece is unable to move to your end position."
     elsif !piece.valid_moves.include?(end_pos)
