@@ -12,6 +12,13 @@ class Piece
   end
 
   def valid_moves
+    self.moves.select do |move|
+      board_clone = @board.dup
+      board_clone.move!(coordinates,move!)
+
+      !board_clone.in_check?(color)
+    end
+  end
 
   def moves(possible_moves)
     prune_moves(possible_moves)
