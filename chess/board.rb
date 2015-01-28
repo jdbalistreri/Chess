@@ -92,8 +92,8 @@ class Board
 
   def move(start, end_pos)
     piece = self[*start]
+    
     if piece.nil?
-
       raise ArgumentError.new "There is no piece at your start coordinate."
     elsif !piece.valid_moves.include?(end_pos)
       raise ArgumentError.new "Not a valid move, change your end position."
