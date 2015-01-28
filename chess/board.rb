@@ -11,6 +11,10 @@ class Board
     fill_new_game unless empty
   end
 
+  def game_over?
+    checkmate?(:white) || checkmate?(:black)
+  end
+
   def dup
     new_board = Board.new(true)
 

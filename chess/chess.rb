@@ -9,3 +9,8 @@ require_relative("knight.rb")
 require_relative("pawn.rb")
 require_relative("queen.rb")
 require_relative("rook.rb")
+
+require_relative("human_player.rb")
+require_relative("computer_player.rb")
+
+require_relative("game.rb")
