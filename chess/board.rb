@@ -53,7 +53,6 @@ class Board
 
   end
 
-
   def render
     tile_count = 0
 
@@ -137,17 +136,16 @@ class Board
     @board[y][x] = value
   end
 
-
-
-
-
-
   def checkmate?(color)
+    return false if !in_check?(color)
 
-  end
+    each_pos do |piece|
+      next if piece.nil? || piece.color != color
 
-  def string
-    puts "string".colorize(background: :green)
+      return false if !piece.valid_moves.empty?
+    end
+
+    true
   end
 
 end
