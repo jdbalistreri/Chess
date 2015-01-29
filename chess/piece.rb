@@ -2,18 +2,25 @@
 require_relative("chess.rb")
 
 class Piece
-  attr_accessor :coordinates
+  attr_accessor :coordinates, :value
   attr_reader :color
+
+  PIECE_VALUES = { Pawn: 1,
+                   Knight: 3,
+                   Bishop: 3,
+                   Rook: 5,
+                   Queen: 9 }
 
   def initialize(board = nil, color = nil, coordinates = nil)
     @board = board || Board.new
     @color = color || :white
     @coordinates = coordinates || [4,4]
+    @value = PIECE_VALUES[self.class.to_s.to_sym]
   end
 
-  def inspect
-    "#{self.color.to_s.capitalize} #{self.class.to_s.capitalize}"
-  end
+  # def inspect
+  #   "#{self.color.to_s.capitalize} #{self.class.to_s.capitalize}"
+  # end
 
   def valid_moves
     self.moves.select do |move|
