@@ -8,17 +8,17 @@ module SteppingPiece
   end
 
   def generate_deltas
-    possible_moves = []
+    generated_deltas = []
     curr_y, curr_x = @coordinates
 
     self.class::DELTAS.each do |(dy, dx)|
       new_y, new_x = curr_y + dy, curr_x + dx
-      next unless on_the_board?([new_y, new_x])
 
-      possible_moves << [new_y, new_x]
+      next unless on_the_board?([new_y, new_x])
+      generated_deltas << [new_y, new_x]
     end
 
-    possible_moves
+    generated_deltas
   end
 
 end
