@@ -15,7 +15,7 @@ module SlidingPiece
 
       loop do
         curr_y, curr_x  = curr_y + dy, curr_x + dx
-        break if [curr_y, curr_x].any? {|el| !el.between?(0,7)}
+        break unless on_the_board?(curr_y, curr_x)
 
         possible_moves << [curr_y, curr_x]
         break if !@board[curr_y, curr_x].nil?
