@@ -109,8 +109,8 @@ class Board
   end
 
   def move!(start, end_pos)
-    piece = self[*start]
-    taken_piece = self[*end_pos]
+    piece = self[start]
+    taken_piece = self[end_pos]
 
     @graveyard << taken_piece unless taken_piece.nil?
 
@@ -121,15 +121,15 @@ class Board
   end
 
   def check_start(start_pos, player_color)
-    if self[*start_pos].nil?
+    if self[start_pos].nil?
       raise ArgumentError.new "You cannot move from an empty square."
-    elsif self[*start_pos].color != player_color
+    elsif self[start_pos].color != player_color
       raise ArgumentError.new "This is the wrong color piece."
     end
   end
 
   def move(start, end_pos, player_color)
-    piece = self[*start]
+    piece = self[start]
 
     if piece.nil?
       raise ArgumentError.new "There is no piece at your start coordinate."
@@ -174,7 +174,8 @@ class Board
 
   ####THIS COULD BE REFACTORED TO MAKE SURE THEY ARE CONSISTENT INPUT FORMATS!!!
   #*!*!*!*!*!*!**!*!
-  def [](y,x)
+  def [](pos)
+    y, x = pos
     @board[y][x]
   end
 

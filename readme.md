@@ -11,8 +11,8 @@
 ##Implementation
 
 ###Object Oriented Implementation
-- Sliding piece and stepping piece modules mixed-in to DRY up shared methods
-- Individual pieces classes (e.g. Queen) inherit from Piece superclass
+- Sliding piece (link) and stepping piece (link) modules mixed-in to DRY up shared methods
+- Individual pieces classes (e.g. Queen(link)) inherit from Piece superclass (link)
 
 ###Move Validation
 - Creates a deep dup of the board and tests validity of moves, for both feasibility and whether or not a move leaves a player's king in check

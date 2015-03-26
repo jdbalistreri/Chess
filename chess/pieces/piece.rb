@@ -22,28 +22,27 @@ class Piece
       board_clone = @board.dup
       board_clone.move!(coordinates,move)
 
-      !board_clone.in_check?(color)
+      !board_clone.in_check?(self.color)
     end
   end
 
   def moves(generated_deltas)
     generated_deltas.select do |pos|
-      pos_value = @board[*pos]
-      pos_value.nil? || !(pos_value.color == @color)
+      empty_spot?(pos) || opposing_piece?(pos)
     end
   end
 
   # UTILITY METHODS
-  def opposing_piece?(y, x)
-    piece = @board[y,x]
-    !piece.nil? && piece.color != @color
+  def opposing_piece?(pos)
+    piece = @board[pos]
+    !piece.nil? && piece.color != @color #could refactor this line
   end
 
-  def empty_spot?(y, x)
-    @board[y,x].nil?
+  def empty_spot?(pos)
+    @board[pos].nil?
   end
 
-  def on_the_board?(y, x)
-    [y,x].all? { |el| el.between?(0,7) }
+  def on_the_board?(pos)
+    pos.all? { |el| el.between?(0,7) }
   end
 end

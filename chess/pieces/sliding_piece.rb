@@ -15,10 +15,10 @@ module SlidingPiece
 
       loop do
         curr_y, curr_x  = curr_y + dy, curr_x + dx
-        break unless on_the_board?(curr_y, curr_x)
+        break unless on_the_board?([curr_y, curr_x])
 
         possible_moves << [curr_y, curr_x]
-        break if !@board[curr_y, curr_x].nil?
+        break if !@board[[curr_y, curr_x]].nil?
       end
     end
 

@@ -13,7 +13,7 @@ module SteppingPiece
 
     self.class::DELTAS.each do |(dy, dx)|
       new_y, new_x = curr_y + dy, curr_x + dx
-      next unless on_the_board?(new_y, new_x)
+      next unless on_the_board?([new_y, new_x])
 
       possible_moves << [new_y, new_x]
     end

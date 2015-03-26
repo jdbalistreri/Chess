@@ -86,12 +86,12 @@ class ChessConsole
     toggle_select
 
     if @square_selected
-      @start_pos = parse_from_display(disp_y,disp_x)
+      @start_pos = parse_from_display([disp_y,disp_x])
       @game.check_start(@start_pos)
 
       @highlighted_positions = [[disp_y,disp_x]]
-      other_positions = @game.board[*@start_pos].valid_moves.map do |pos|
-        parse_to_display(*pos)
+      other_positions = @game.board[@start_pos].valid_moves.map do |pos|
+        parse_to_display(pos)
       end
 
       @highlighted_positions += other_positions
@@ -99,20 +99,21 @@ class ChessConsole
       @selected_x = disp_x
       @selected_y = disp_y
     else
-      @end_pos = parse_from_display(disp_y,disp_x)
+      @end_pos = parse_from_display([disp_y,disp_x])
       @game.handle_dispel_move(@start_pos, @end_pos)
     end
 
   rescue ArgumentError => e
-    # puts e
     @square_selected = false
   end
 
-  def parse_from_display(y,x)
+  def parse_from_display(pos)
+    y, x = pos
     [y,(x-4)/3]
   end
 
-  def parse_to_display(y,x)
+  def parse_to_display(pos)
+    y, x = pos
     [y,x*3 + 4]
   end
 

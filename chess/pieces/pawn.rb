@@ -21,13 +21,13 @@ class Pawn < Piece
     first_diag = [curr_y + @dy, curr_x + 1]
     second_diag = [curr_y + @dy, curr_x - 1]
 
-    possible_moves << first_diag if opposing_piece?(*first_diag) && on_the_board?(*first_diag)
-    possible_moves << second_diag if opposing_piece?(*second_diag) && on_the_board?(*second_diag)
+    possible_moves << first_diag if opposing_piece?(first_diag) && on_the_board?(first_diag)
+    possible_moves << second_diag if opposing_piece?(second_diag) && on_the_board?(second_diag)
 
-    if empty_spot?(*one_move_ahead) && on_the_board?(*one_move_ahead)
+    if empty_spot?(one_move_ahead) && on_the_board?(one_move_ahead)
       possible_moves << one_move_ahead
 
-      if empty_spot?(*two_moves_ahead) && curr_y == @start_row
+      if empty_spot?(two_moves_ahead) && curr_y == @start_row
         possible_moves << two_moves_ahead
       end
     end
