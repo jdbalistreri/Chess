@@ -122,11 +122,3 @@ class ChessConsole
   end
 
 end
-
-
-
-if __FILE__ == $PROGRAM_NAME
-  console = ChessConsole.new
-  console.run
-  puts "Hi"
-end

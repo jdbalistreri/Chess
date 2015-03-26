@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative("chess.rb")
+require_relative("../chess.rb")
 
 class Piece
   attr_accessor :coordinates, :value
@@ -17,10 +17,6 @@ class Piece
     @coordinates = coordinates || [4,4]
     @value = PIECE_VALUES[self.class.to_s.to_sym]
   end
-
-  # def inspect
-  #   "#{self.color.to_s.capitalize} #{self.class.to_s.capitalize}"
-  # end
 
   def valid_moves
     self.moves.select do |move|

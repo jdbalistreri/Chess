@@ -1,9 +1,9 @@
-require_relative('chess.rb')
+require_relative("../chess.rb")
 
 class HumanPlayer
 
   attr_reader :piece_color
-  
+
   def initialize(name, piece_color)
     @name = name
     @piece_color = piece_color
