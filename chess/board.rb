@@ -6,40 +6,78 @@ class Board
 
   attr_reader :board, :graveyard
 
-  def initialize(empty = false)
-    @board = board = Array.new(8) { Array.new(8) }
-    fill_new_game unless empty
+  def initialize(options = {})
     @graveyard = []
+    create_game_board(options)
   end
 
-  def white_graveyard_pawns
-    @graveyard.select { |piece| piece.white? && piece.class == Pawn }.map(&:render).map(&:strip)
+  def move(start, end_pos, player_color)
+    piece = self[start]
+
+    if piece.nil?
+      raise ArgumentError.new "There is no piece at your start coordinate."
+    elsif !piece.moves.include?(end_pos)
+      raise ArgumentError.new "That piece is unable to move to your end position."
+    elsif !piece.valid_moves.include?(end_pos)
+      raise ArgumentError.new "Illegal move. You cannot leave/put your King in check."
+    end
+
+    move!(start,end_pos)
   end
 
-  def white_graveyard_other
-    @graveyard.select do |piece|
-      piece.white? && piece.class != Pawn
-    end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
-  end
+  def move!(start, end_pos)
+    piece = self[start]
+    taken_piece = self[end_pos]
 
-  def black_graveyard_pawns
-    @graveyard.select { |piece| piece.black? && piece.class == Pawn }.map(&:render).map(&:strip)
-  end
+    @graveyard << taken_piece if taken_piece
 
-  def black_graveyard_other
-    @graveyard.select do |piece|
-      piece.black? && piece.class != Pawn
-    end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
+    self[start], self[end_pos] = nil, piece
+    piece.coordinates = end_pos unless piece.nil?
+
+    nil
   end
 
   def game_over?
     checkmate?(:white) || checkmate?(:black)
   end
 
-  def dup
-    new_board = Board.new(true)
+  def checkmate?(color)
+    return false if !in_check?(color)
 
-    self.each_pos do |piece|
+    pieces.each do |piece|
+      next if piece.nil? || piece.color != color
+
+      return false if !piece.valid_moves.empty?
+    end
+
+    true
+  end
+
+  def in_check?(color)
+    kings_position = nil
+
+    pieces.each do |piece|
+      if piece.is_a?(King) && piece.color == color
+        kings_position = piece.coordinates
+        break
+      end
+    end
+
+    kings_position
+
+    pieces.each do |piece|
+      if !piece.nil? && piece.color != color
+        return true if piece.moves.include?(kings_position)
+      end
+    end
+
+    false
+  end
+
+  def dup
+    new_board = Board.new({empty: true})
+
+    pieces.each do |piece|
       next if piece.nil?
 
       new_board[piece.coordinates] = piece.class.new(new_board, piece.color, piece.coordinates.dup)
@@ -47,35 +85,31 @@ class Board
     new_board
   end
 
-  def fill_new_game
-
-    @board.length.times do |column|
-      self[[1,column]] = Pawn.new(self,:black, [1, column])
-      self[[6,column]] = Pawn.new(self,:white, [6, column])
-
-      if column == 0 || column == 7
-        self[[0,column]] = Rook.new(self, :black, [0, column])
-        self[[7,column]] = Rook.new(self, :white, [7, column])
-
-      elsif column == 1 || column == 6
-        self[[0,column]] = Knight.new(self, :black, [0, column])
-        self[[7,column]] = Knight.new(self, :white, [7, column])
-
-      elsif column == 2 || column == 5
-        self[[0,column]] = Bishop.new(self, :black, [0, column])
-        self[[7,column]] = Bishop.new(self, :white, [7, column])
-
-      elsif column == 3
-        self[[0,column]] = Queen.new(self, :black, [0, column])
-        self[[7,column]] = Queen.new(self, :white, [7, column])
-
-      else
-        self[[0,column]] = King.new(self, :black, [0, column])
-        self[[7,column]] = King.new(self, :white, [7, column])
-      end
-
+  def validate_start(start_pos, player_color)
+    if self[start_pos].nil?
+      raise ArgumentError.new "You cannot move from an empty square."
+    elsif self[start_pos].color != player_color
+      raise ArgumentError.new "This is the wrong color piece."
     end
+  end
 
+  #UTILITY METHODS
+  def pieces
+    @board.flatten.compact
+  end
+
+  def [](pos)
+    y, x = pos
+    @board[y][x]
+  end
+
+  def []=(pos, value)
+    y, x = pos
+    @board[y][x] = value
+  end
+
+  def display
+    puts render
   end
 
   def render(colors = true)
@@ -101,97 +135,59 @@ class Board
     end
 
     board_array << "    #{("A".."H").to_a.join("  ")}"
-
   end
 
-  def display
-    puts render
+  def white_graveyard_pawns
+    @graveyard.select { |piece| piece.white? && piece.class == Pawn }.map(&:render).map(&:strip)
   end
 
-  def move!(start, end_pos)
-    piece = self[start]
-    taken_piece = self[end_pos]
-
-    @graveyard << taken_piece unless taken_piece.nil?
-
-    self[start], self[end_pos] = nil, piece
-    piece.coordinates = end_pos unless piece.nil?
-
-    nil
+  def white_graveyard_other
+    @graveyard.select do |piece|
+      piece.white? && piece.class != Pawn
+    end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
   end
 
-  def check_start(start_pos, player_color)
-    if self[start_pos].nil?
-      raise ArgumentError.new "You cannot move from an empty square."
-    elsif self[start_pos].color != player_color
-      raise ArgumentError.new "This is the wrong color piece."
-    end
+  def black_graveyard_pawns
+    @graveyard.select { |piece| piece.black? && piece.class == Pawn }.map(&:render).map(&:strip)
   end
 
-  def move(start, end_pos, player_color)
-    piece = self[start]
-
-    if piece.nil?
-      raise ArgumentError.new "There is no piece at your start coordinate."
-    elsif !piece.moves.include?(end_pos)
-      raise ArgumentError.new "That piece is unable to move to your end position."
-    elsif !piece.valid_moves.include?(end_pos)
-      raise ArgumentError.new "Illegal move. You cannot leave/put your King in check."
-    else
-      move!(start,end_pos)
-    end
-    nil
+  def black_graveyard_other
+    @graveyard.select do |piece|
+      piece.black? && piece.class != Pawn
+    end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
   end
 
-  def in_check?(color)
-    kings_position = nil
+  private
+    def create_game_board(options)
+      @board = Array.new(8) { Array.new(8) }
+      return if options[:empty]
 
-    each_pos do |pos|
-      if pos.is_a?(King) && pos.color == color
-        kings_position = pos.coordinates
-        break
+      @board.length.times do |column|
+        self[[1,column]] = Pawn.new(self,:black, [1, column])
+        self[[6,column]] = Pawn.new(self,:white, [6, column])
+
+        if column == 0 || column == 7
+          self[[0,column]] = Rook.new(self, :black, [0, column])
+          self[[7,column]] = Rook.new(self, :white, [7, column])
+
+        elsif column == 1 || column == 6
+          self[[0,column]] = Knight.new(self, :black, [0, column])
+          self[[7,column]] = Knight.new(self, :white, [7, column])
+
+        elsif column == 2 || column == 5
+          self[[0,column]] = Bishop.new(self, :black, [0, column])
+          self[[7,column]] = Bishop.new(self, :white, [7, column])
+
+        elsif column == 3
+          self[[0,column]] = Queen.new(self, :black, [0, column])
+          self[[7,column]] = Queen.new(self, :white, [7, column])
+
+        else
+          self[[0,column]] = King.new(self, :black, [0, column])
+          self[[7,column]] = King.new(self, :white, [7, column])
+        end
+
       end
+
     end
-
-    kings_position
-
-    each_pos do |pos|
-      if !pos.nil? && pos.color != color
-        return true if pos.moves.include?(kings_position)
-      end
-    end
-
-    false
-  end
-
-  def each_pos(&prc)
-    @board.each do |row|
-      row.each do |value|
-        prc.call(value)
-      end
-    end
-  end
-
-  def [](pos)
-    y, x = pos
-    @board[y][x]
-  end
-
-  def []=(pos, value)
-    y, x = pos
-    @board[y][x] = value
-  end
-
-  def checkmate?(color)
-    return false if !in_check?(color)
-
-    each_pos do |piece|
-      next if piece.nil? || piece.color != color
-
-      return false if !piece.valid_moves.empty?
-    end
-
-    true
-  end
-
 end

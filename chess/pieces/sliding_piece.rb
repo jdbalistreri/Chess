@@ -7,23 +7,24 @@ module SlidingPiece
     super(generate_deltas)
   end
 
-  def generate_deltas
-    generated_deltas = []
+  private
+    def generate_deltas
+      generated_deltas = []
 
-    self.class::DIRECTIONS.each do |(dy, dx)|
-      curr_y, curr_x = self.coordinates
+      self.class::DIRECTIONS.each do |(dy, dx)|
+        curr_y, curr_x = self.coordinates
 
-      loop do
-        curr_y, curr_x  = curr_y + dy, curr_x + dx
+        loop do
+          curr_y, curr_x  = curr_y + dy, curr_x + dx
 
-        break unless on_the_board?([curr_y, curr_x])
-        generated_deltas << [curr_y, curr_x]
+          break unless on_the_board?([curr_y, curr_x])
+          generated_deltas << [curr_y, curr_x]
 
-        break unless empty_spot?([curr_y, curr_x])
+          break unless empty_spot?([curr_y, curr_x])
+        end
       end
-    end
 
-    generated_deltas
-  end
+      generated_deltas
+    end
 
 end

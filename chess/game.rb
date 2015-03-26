@@ -50,8 +50,8 @@ class Game
     @board.in_check?(@current_player.piece_color)
   end
 
-  def check_start(start_pos)
-    @board.check_start(start_pos, @current_player.piece_color)
+  def validate_start(start_pos)
+    @board.validate_start(start_pos, @current_player.piece_color)
   end
 
   def toggle_player

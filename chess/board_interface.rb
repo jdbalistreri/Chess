@@ -87,7 +87,7 @@ class ChessConsole
 
     if @square_selected
       @start_pos = parse_from_display([disp_y,disp_x])
-      @game.check_start(@start_pos)
+      @game.validate_start(@start_pos)
 
       @highlighted_positions = [[disp_y,disp_x]]
       other_positions = @game.board[@start_pos].valid_moves.map do |pos|
