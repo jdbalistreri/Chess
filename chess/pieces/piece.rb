@@ -11,10 +11,8 @@ class Piece
                    Rook: 5,
                    Queen: 9 }
 
-  def initialize(board = nil, color = nil, coordinates = nil)
-    @board = board || Board.new
-    @color = color || :white
-    @coordinates = coordinates || [4,4]
+  def initialize(board, color, coordinates)
+    @board, @color, @coordinates = board, color, coordinates
     @value = PIECE_VALUES[self.class.to_s.to_sym]
   end
 
@@ -28,10 +26,6 @@ class Piece
   end
 
   def moves(possible_moves)
-    prune_moves(possible_moves)
-  end
-
-  def prune_moves(possible_moves)
     possible_moves.select do |pos|
       pos_value = @board[*pos]
       pos_value.nil? || !(pos_value.color == @color)
@@ -47,10 +41,6 @@ class Piece
   def empty_spot?(y, x)
     return false unless [y,x].all? { |el| el.between?(0,7) }
     @board[y,x].nil?
-  end
-
-  def move_into_check?(pos)
-
   end
 
 end
