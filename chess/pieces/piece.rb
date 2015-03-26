@@ -11,8 +11,10 @@ class Piece
                    Rook: 5,
                    Queen: 9 }
 
-  def initialize(board, color, coordinates)
-    @board, @color, @coordinates = board, color, coordinates
+  def initialize(board = nil, color = nil, coordinates = nil)
+    @board = board || Board.new
+    @color = color || :white
+    @coordinates = coordinates || [4,4]
     @value = PIECE_VALUES[self.class.to_s.to_sym]
   end
 
