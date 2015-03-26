@@ -1,7 +1,7 @@
 # encoding: utf-8
 require_relative("../chess.rb")
 
-class SteppingPiece < Piece
+module SteppingPiece
 
   def moves
     super(generate_deltas)

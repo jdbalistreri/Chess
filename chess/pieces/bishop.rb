@@ -2,7 +2,8 @@
 require_relative("../chess.rb")
 
 
-class Bishop < SlidingPiece
+class Bishop < Piece
+  include SlidingPiece
 
   DIRECTIONS = [
     [-1, -1],           [-1, 1],

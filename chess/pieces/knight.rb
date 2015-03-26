@@ -2,7 +2,8 @@
 require_relative("../chess.rb")
 
 
-class Knight < SteppingPiece
+class Knight < Piece
+  include SteppingPiece
 
   DELTAS = [[2,1],
           [2,-1],

@@ -2,7 +2,8 @@
 require_relative("../chess.rb")
 
 
-class Rook < SlidingPiece
+class Rook < Piece
+  include SlidingPiece
 
   DIRECTIONS = [
               [-1, 0],
