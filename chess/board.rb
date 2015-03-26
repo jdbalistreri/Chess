@@ -13,22 +13,22 @@ class Board
   end
 
   def white_graveyard_pawns
-    @graveyard.select { |piece| piece.color == :white && piece.class == Pawn }.map(&:render).map(&:strip)
+    @graveyard.select { |piece| piece.white? && piece.class == Pawn }.map(&:render).map(&:strip)
   end
 
   def white_graveyard_other
     @graveyard.select do |piece|
-      piece.color == :white && piece.class != Pawn
+      piece.white? && piece.class != Pawn
     end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
   end
 
   def black_graveyard_pawns
-    @graveyard.select { |piece| piece.color == :black && piece.class == Pawn }.map(&:render).map(&:strip)
+    @graveyard.select { |piece| piece.black? && piece.class == Pawn }.map(&:render).map(&:strip)
   end
 
   def black_graveyard_other
     @graveyard.select do |piece|
-      piece.color == :black && piece.class != Pawn
+      piece.black? && piece.class != Pawn
     end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
   end
 
@@ -172,8 +172,6 @@ class Board
     end
   end
 
-  ####THIS COULD BE REFACTORED TO MAKE SURE THEY ARE CONSISTENT INPUT FORMATS!!!
-  #*!*!*!*!*!*!**!*!
   def [](pos)
     y, x = pos
     @board[y][x]

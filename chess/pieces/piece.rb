@@ -33,9 +33,18 @@ class Piece
   end
 
   # UTILITY METHODS
+  def white?
+    self.color == :white
+  end
+
+  def black?
+    self.color == :black
+  end
+
   def opposing_piece?(pos)
+    return false if empty_spot?(pos)
     piece = @board[pos]
-    !piece.nil? && piece.color != @color #could refactor this line
+    self.white? ? piece.black? : piece.white?
   end
 
   def empty_spot?(pos)
