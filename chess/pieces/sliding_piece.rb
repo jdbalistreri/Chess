@@ -8,21 +8,22 @@ module SlidingPiece
   end
 
   def generate_deltas
-    possible_moves = []
+    generated_deltas = []
 
     self.class::DIRECTIONS.each do |(dy, dx)|
-      curr_y, curr_x = @coordinates
+      curr_y, curr_x = self.coordinates
 
       loop do
         curr_y, curr_x  = curr_y + dy, curr_x + dx
-        break unless on_the_board?([curr_y, curr_x])
 
-        possible_moves << [curr_y, curr_x]
-        break if !@board[[curr_y, curr_x]].nil?
+        break unless on_the_board?([curr_y, curr_x])
+        generated_deltas << [curr_y, curr_x]
+
+        break unless empty_spot?([curr_y, curr_x])
       end
     end
 
-    possible_moves
+    generated_deltas
   end
 
 end
