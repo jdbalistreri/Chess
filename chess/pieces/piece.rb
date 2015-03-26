@@ -34,15 +34,12 @@ class Piece
   end
 
   # UTILITY METHODS
-
   def opposing_piece?(y, x)
-    return false unless on_the_board?(y, x)
     piece = @board[y,x]
     !piece.nil? && piece.color != @color
   end
 
   def empty_spot?(y, x)
-    return false unless on_the_board?(y, x)
     @board[y,x].nil?
   end
 
