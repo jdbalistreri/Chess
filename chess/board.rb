@@ -138,22 +138,22 @@ class Board
   end
 
   def white_graveyard_pawns
-    @graveyard.select { |piece| piece.white? && piece.class == Pawn }.map(&:render).map(&:strip)
+    @graveyard.select { |piece| piece.is?(:white) && piece.class == Pawn }.map(&:render).map(&:strip)
   end
 
   def white_graveyard_other
     @graveyard.select do |piece|
-      piece.white? && piece.class != Pawn
+      piece.is?(:white) && piece.class != Pawn
     end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
   end
 
   def black_graveyard_pawns
-    @graveyard.select { |piece| piece.black? && piece.class == Pawn }.map(&:render).map(&:strip)
+    @graveyard.select { |piece| piece.is?(:black) && piece.class == Pawn }.map(&:render).map(&:strip)
   end
 
   def black_graveyard_other
     @graveyard.select do |piece|
-      piece.black? && piece.class != Pawn
+      piece.is?(:black) && piece.class != Pawn
     end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
   end
 

@@ -12,7 +12,7 @@ class Bishop < Piece
     [1, -1],            [1, 1] ]
 
   def render
-    self.black? ? " ♝ " : " ♗ "
+    self.is?(:black) ? " ♝ " : " ♗ "
   end
 
 end

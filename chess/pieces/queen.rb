@@ -14,6 +14,6 @@ class Queen < Piece
 
 
   def render
-    self.black? ? " ♛ " : " ♕ "
+    self.is?(:black) ? " ♛ " : " ♕ "
   end
 end

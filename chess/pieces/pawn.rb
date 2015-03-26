@@ -7,8 +7,8 @@ class Pawn < Piece
   def initialize(board, color, coordinates)
     super
 
-    @dy = self.black? ? 1 : -1
-    @start_row = self.black? ? 1 : 6
+    @dy = self.is?(:black) ? 1 : -1
+    @start_row = self.is?(:black) ? 1 : 6
   end
 
   def moves
@@ -36,6 +36,6 @@ class Pawn < Piece
   end
 
   def render
-    self.black? ? " ♟ " : " ♙ "
+    self.is?(:black) ? " ♟ " : " ♙ "
   end
 end

@@ -28,7 +28,7 @@ class Piece
   def opposing_piece?(pos)
     return false if empty_spot?(pos)
     piece = self.board[pos]
-    self.white? ? piece.black? : piece.white?
+    self.is?(:white) ? piece.is?(:black) : piece.is?(:white)
   end
 
   def empty_spot?(pos)
@@ -39,11 +39,8 @@ class Piece
     pos.all? { |el| el.between?(0,7) }
   end
 
-  def white?
-    self.color == :white
+  def is?(color)
+    self.color == color
   end
 
-  def black?
-    self.color == :black
-  end
 end
