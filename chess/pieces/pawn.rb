@@ -36,6 +36,6 @@ class Pawn < Piece
   end
 
   def render
-    @color == :black ? " ♟ " : " ♙ "
+    self.black? ? " ♟ " : " ♙ "
   end
 end

@@ -13,8 +13,8 @@ class King < Piece
 
     [1, -1],  [1, 0],  [1, 1] ]
 
-    def render
-      @color == :black ? " ♚ " : " ♔ "
-    end
+  def render
+    self.black? ? " ♚ " : " ♔ "
+  end
 
 end

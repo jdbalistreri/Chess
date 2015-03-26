@@ -15,6 +15,6 @@ class Knight < Piece
           [-1,-2]]
 
   def render
-    @color == :black ? " ♞ " : " ♘ "
+    self.black? ? " ♞ " : " ♘ "
   end
 end

@@ -15,6 +15,6 @@ class Rook < Piece
 
 
   def render
-    @color == :black ? " ♜ " : " ♖ "
+    self.black? ? " ♜ " : " ♖ "
   end
 end
