@@ -76,11 +76,16 @@ class King < Piece
   def king_can_castle
     self.can_castle && true &&
        !self.board.in_check?(self.color)
-    #the king does not move through a square attacked by the opponent
-    #the king cannot be in check after castling
   end
 
   def post_move_callback
+    if @can_castle
+      if self.coordinates[1] == 2
+        @board.move!([@start_row, 0], [@start_row, 3])
+      elsif self.coordinates[1] == 6
+        @board.move!([@start_row, 7], [@start_row, 5])
+      end
+    end
     @can_castle = false
   end
 
