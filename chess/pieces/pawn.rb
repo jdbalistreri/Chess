@@ -1,6 +1,6 @@
 # encoding: utf-8
 require_relative("../chess.rb")
-
+require 'byebug'
 
 class Pawn < Piece
 
@@ -21,13 +21,13 @@ class Pawn < Piece
     first_diag = [curr_y + @dy, curr_x + 1]
     second_diag = [curr_y + @dy, curr_x - 1]
 
-    possible_moves << first_diag if opposing_piece?(first_diag) && on_the_board?(first_diag)
-    possible_moves << second_diag if opposing_piece?(second_diag) && on_the_board?(second_diag)
+    possible_moves << first_diag if on_the_board?(first_diag) && opposing_piece?(first_diag)
+    possible_moves << second_diag if on_the_board?(second_diag) && opposing_piece?(second_diag)
 
-    if empty_spot?(one_move_ahead) && on_the_board?(one_move_ahead)
+    if on_the_board?(one_move_ahead) && empty_spot?(one_move_ahead)
       possible_moves << one_move_ahead
 
-      if empty_spot?(two_moves_ahead) && curr_y == @start_row
+      if curr_y == @start_row && empty_spot?(two_moves_ahead)
         possible_moves << two_moves_ahead
       end
     end
@@ -37,5 +37,18 @@ class Pawn < Piece
 
   def render
     self.is?(:black) ? " ♟ " : " ♙ "
+  end
+
+  def run_checks
+    check_for_promotion
+  end
+
+  def check_for_promotion
+    curr_y = self.coordinates[0]
+    back_row = self.is?(:black) ? 7 : 0
+
+    if curr_y == back_row
+      self.board.promote_pawn(self)
+    end
   end
 end

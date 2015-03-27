@@ -12,8 +12,10 @@ class Board
   end
 
   def move(start_pos, end_pos, player_color)
-    validate_move(self[start_pos], end_pos)
+    piece = self[start_pos]
+    validate_move(piece, end_pos)
     move!(start_pos, end_pos)
+    piece.run_checks
   end
 
   def move!(start_pos, end_pos)
@@ -67,6 +69,10 @@ class Board
     elsif self[start_pos].color != player_color
       raise ArgumentError.new "This is the wrong color piece."
     end
+  end
+
+  def promote_pawn(pawn)
+    self[pawn.coordinates] = Queen.new(self, pawn.color, pawn.coordinates.dup)
   end
 
   #UTILITY METHODS

@@ -43,4 +43,8 @@ class Piece
     self.color == color
   end
 
+  def run_checks
+
+  end
+
 end
