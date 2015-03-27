@@ -17,10 +17,9 @@ class ComputerPlayer
   def random_move
     pieces = @board.pieces.select { |piece| piece.is?(self.piece_color) }
     loop do
-      piece = pieces.shuffle.pop
-      if piece.valid_moves
-        return [piece.coordinates, piece.valid_moves.sample]
-      end
+      valid_pieces = pieces.select { |piece| !piece.valid_moves.empty? }
+      piece = valid_pieces.sample
+      return [piece.coordinates, piece.valid_moves.sample]
     end
   end
 

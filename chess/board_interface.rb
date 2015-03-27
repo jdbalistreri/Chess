@@ -25,6 +25,7 @@ class ChessConsole
     display_strings = default_board
     10.times { display_strings << "" }
     display_strings << "Use arrow keys to move and [enter] to select."
+    display_strings << "On computer turn, press [space] to trigger move."
     display_strings.join("\n")
   end
 
