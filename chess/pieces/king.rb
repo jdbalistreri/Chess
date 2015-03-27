@@ -18,7 +18,7 @@ class King < Piece
   def initialize(board, color, coordinates)
     super
     @can_castle = true
-    @start_row = self.is?(:black) ? 0 : 7
+    @start_row = coordinates[0]
   end
 
   def render

@@ -2,7 +2,7 @@
 require_relative("../chess.rb")
 
 class Piece
-  attr_accessor :coordinates, :value, :board
+  attr_accessor :coordinates, :value, :board, :generated_deltas, :traditional_moves
   attr_reader :color
 
   def initialize(board, color, coordinates)
@@ -41,14 +41,6 @@ class Piece
 
   def is?(color)
     self.color == color
-  end
-
-  def generated_deltas=(value)
-    @generated_deltas = value
-  end
-
-  def traditional_moves=(value)
-    @generated_deltas = value
   end
 
   def post_move_callback

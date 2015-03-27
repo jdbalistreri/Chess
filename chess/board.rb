@@ -16,12 +16,13 @@ class Board
     validate_move(piece, end_pos)
     move!(start_pos, end_pos)
 
-    piece.post_move_callback
 
     pieces.each do |piece|
       piece.generated_deltas = nil
       piece.traditional_moves = nil
     end
+    
+    piece.post_move_callback
   end
 
   def move!(start_pos, end_pos)
