@@ -4,9 +4,9 @@
 
 ###Full Chess Functionality
 - Implements full suite of chess moves, including en passant, castling, and pawn promotion
-- Enforces valid moves (i.e. cannot result in check)
+- Enforces valid moves (i.e. cannot result in check for own king)
 - Can be configured to use any combination of human and computer players
-- Computer AI makes random moves for demonstration purposes
+- Default computer AI makes random moves for demonstration purposes
 
 ###Friendly UI
 - Navigates with arrow keys, not chess notation
@@ -18,8 +18,8 @@
 ##Implementation
 
 ###Object Oriented Implementation
-- Sliding piece (link) and stepping piece (link) modules mixed-in to DRY up shared methods
-- Individual pieces classes (e.g. Queen(link)) inherit from Piece superclass (link)
+- [Sliding piece][sliding-piece] and [stepping piece][stepping-piece] modules mixed-in to DRY up shared methods
+- Individual pieces classes (e.g. [Queen][queen]) inherit from [Piece][piece] superclass
 
 ###Move Validation
 - Creates a deep dup of the board and tests validity of moves, for both feasibility and whether or not a move leaves a player's king in check
@@ -29,4 +29,13 @@
 - Dispel gem captures keystrokes and re-renders board with updated state
 
 
+##How to run
+###Download/install
+
+###Run
+
 [gameplay]: ./images/gameplay.png
+[sliding-piece]: ./chess/pieces/sliding_piece.rb
+[stepping-piece]: ./chess/pieces/stepping_piece.rb
+[queen]: ./chess/pieces/queen.rb
+[piece]: ./chess/pieces/piece.rb
