@@ -18,8 +18,8 @@ class Piece
     end
   end
 
-  def moves(generated_deltas)
-    generated_deltas.select do |pos|
+  def moves
+    generate_deltas.select do |pos|
       empty_spot?(pos) || opposing_piece?(pos)
     end
   end
@@ -44,6 +44,10 @@ class Piece
   end
 
   def generated_deltas=(value)
+    @generated_deltas = value
+  end
+
+  def traditional_moves=(value)
     @generated_deltas = value
   end
 

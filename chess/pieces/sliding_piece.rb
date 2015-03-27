@@ -3,10 +3,6 @@ require_relative("../chess.rb")
 
 module SlidingPiece
 
-  def moves
-    super(generate_deltas)
-  end
-
   private
     def generate_deltas
       generated_deltas = []

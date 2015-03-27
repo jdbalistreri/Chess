@@ -25,13 +25,28 @@ class King < Piece
     self.is?(:black) ? " ♚ " : " ♔ "
   end
 
-  def generate_deltas
-    deltas = DELTAS.dup
+  def traditional_moves
+    return @traditional_moves if @traditional_moves
+
+    self.moves
+
+    @traditional_moves
+  end
+
+  def castle_moves
+    castle_moves = []
+
     if king_can_castle
-      deltas << [0, -2] if left_castle_available
-      deltas << [0, 2] if right_castle_available
+      castle_moves << [@start_row, 2] if left_castle_available
+      castle_moves << [@start_row, 6] if right_castle_available
     end
-    super(deltas)
+
+    castle_moves
+  end
+
+  def moves
+    @traditional_moves = super
+    @traditional_moves.concat(castle_moves)
   end
 
   def left_castle_available
@@ -57,8 +72,8 @@ class King < Piece
   end
 
   def king_can_castle
-    self.can_castle &&
-      !self.board.in_check?(self.color)
+    self.can_castle && true &&
+       !self.board.in_check?(self.color) ##!!!!THIS LINE IS THE PROBLEM
     #the king does not move through a square attacked by the opponent
     #the king cannot be in check after castling
   end

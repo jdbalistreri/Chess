@@ -15,8 +15,11 @@ class Board
     piece = self[start_pos]
     validate_move(piece, end_pos)
     move!(start_pos, end_pos)
+
+    #!!!! Could clean up this section
     piece.post_move_callback
     pieces.each { |piece| piece.generated_deltas = nil }
+    pieces.each { |piece| piece.traditional_moves = nil }
   end
 
   def move!(start_pos, end_pos)
@@ -48,7 +51,11 @@ class Board
     kings_position = king.coordinates
 
     pieces.select { |piece| !piece.is?(color) }.each do |piece|
-      return true if piece.moves.include?(kings_position)
+      if piece.is_a?(King)
+        return true if piece.traditional_moves.include?(kings_position)
+      else
+        return true if piece.moves.include?(kings_position)
+      end
     end
 
     false
