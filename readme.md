@@ -13,6 +13,8 @@
 - Highlights available moves for a selected piece
 - Tracks and displays captured pieces
 
+![gameplay]
+
 ##Implementation
 
 ###Object Oriented Implementation
@@ -25,3 +27,6 @@
 ###Outside Gems
 - Colorize gem adds color to rendered string output
 - Dispel gem captures keystrokes and re-renders board with updated state
+
+
+[gameplay]: ./images/gameplay.png
