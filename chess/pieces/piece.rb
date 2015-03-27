@@ -12,7 +12,7 @@ class Piece
   def valid_moves
     self.moves.select do |move|
       board_clone = self.board.dup
-      board_clone.move!(self.coordinates,move)
+      board_clone.move!(self.coordinates, move)
 
       !board_clone.in_check?(self.color)
     end
@@ -43,7 +43,11 @@ class Piece
     self.color == color
   end
 
-  def run_checks
+  def generated_deltas=(value)
+    @generated_deltas = value
+  end
+
+  def post_move_callback
 
   end
 

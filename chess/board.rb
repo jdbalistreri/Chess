@@ -15,7 +15,8 @@ class Board
     piece = self[start_pos]
     validate_move(piece, end_pos)
     move!(start_pos, end_pos)
-    piece.run_checks
+    piece.post_move_callback
+    pieces.each { |piece| piece.generated_deltas = nil }
   end
 
   def move!(start_pos, end_pos)

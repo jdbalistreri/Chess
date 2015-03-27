@@ -39,7 +39,7 @@ class Pawn < Piece
     self.is?(:black) ? " ♟ " : " ♙ "
   end
 
-  def run_checks
+  def post_move_callback
     check_for_promotion
   end
 
