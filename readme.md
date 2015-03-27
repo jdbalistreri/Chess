@@ -30,9 +30,8 @@
 
 
 ##How to run
-###Download/install
-
-###Run
+- Clone repo locally and install gems
+- Run <code>ruby play_chess.rb</code> from the terminal while in the project directory
 
 [gameplay]: ./images/gameplay.png
 [sliding-piece]: ./chess/pieces/sliding_piece.rb
