@@ -28,14 +28,23 @@ class King < Piece
   def generate_deltas
     deltas = DELTAS.dup
     if king_can_castle
-      deltas << [0, -2] if left_rook_can_castle
-      deltas << [0, 2] if right_rook_can_castle
+      deltas << [0, -2] if left_castle_available
+      deltas << [0, 2] if right_castle_available
     end
     super(deltas)
   end
 
+  def left_castle_available
+    left_rook_can_castle &&
+      [1,2,3].all? { |x| self.board[[@start_row, x]].nil? }
+  end
+
+  def right_castle_available
+    right_rook_can_castle &&
+      [5,6].all? { |x| self.board[[@start_row, x]].nil? }
+  end
+
   def left_rook_can_castle
-    # debugger
     return @left_available if @left_available == false
     left_rook = self.board[[@start_row, 0]]
     @left_available = left_rook.is_a?(Rook) && left_rook.can_castle
