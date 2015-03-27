@@ -52,10 +52,9 @@ class Pawn < Piece
     elsif @en_passant_moves.include?(self.coordinates)
       y, x = self.coordinates
       self.board[[y - @dy, x]] = nil
-    else
-      check_for_promotion
     end
 
+    check_for_promotion
     @moved = true
   end
 

@@ -47,9 +47,8 @@ class ChessConsole
       screen.draw(start_board, map, [y,x])
 
       Dispel::Keyboard.output do |key|
-        if @game.current_player.is_a?(ComputerPlayer)
-          @game.handle_dispel_move(*@game.current_player.move_coordinates)
-        else
+
+
           case key
           when :"Ctrl+c" then break
           when :left then x -= 3 unless x <= 4
@@ -59,8 +58,8 @@ class ChessConsole
           when :enter then process_move(y,x)
           when "y" then @game = Game.new if @game.board.game_over?
           when "n" then break if @game.board.game_over?
+          else @game.handle_dispel_move(*@game.current_player.move_coordinates) if @game.current_player.is_a?(ComputerPlayer)
           end
-        end
 
         screen.draw(draw_board, map, [y,x])
       end
