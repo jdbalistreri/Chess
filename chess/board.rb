@@ -11,30 +11,19 @@ class Board
     create_game_board(options)
   end
 
-  def move(start, end_pos, player_color)
-    piece = self[start]
-
-    if piece.nil?
-      raise ArgumentError.new "There is no piece at your start coordinate."
-    elsif !piece.moves.include?(end_pos)
-      raise ArgumentError.new "That piece is unable to move to your end position."
-    elsif !piece.valid_moves.include?(end_pos)
-      raise ArgumentError.new "Illegal move. You cannot leave/put your King in check."
-    end
-
-    move!(start,end_pos)
+  def move(start_pos, end_pos, player_color)
+    validate_move(self[start_pos], end_pos)
+    move!(start_pos, end_pos)
   end
 
-  def move!(start, end_pos)
-    piece = self[start]
+  def move!(start_pos, end_pos)
+    moving_piece = self[start_pos]
     taken_piece = self[end_pos]
 
     @graveyard << taken_piece if taken_piece
 
-    self[start], self[end_pos] = nil, piece
-    piece.coordinates = end_pos unless piece.nil?
-
-    nil
+    self[start_pos], self[end_pos] = nil, moving_piece
+    moving_piece.coordinates = end_pos
   end
 
   def game_over?
@@ -42,33 +31,21 @@ class Board
   end
 
   def checkmate?(color)
-    return false if !in_check?(color)
+    return false unless in_check?(color)
 
-    pieces.each do |piece|
-      next if piece.nil? || piece.color != color
-
-      return false if !piece.valid_moves.empty?
+    pieces.select { |piece| piece.is?(color) }.each do |piece|
+      return false unless piece.valid_moves.empty?
     end
 
     true
   end
 
   def in_check?(color)
-    kings_position = nil
+    king = pieces.find { |piece| piece.is_a?(King) && piece.is?(color) }
+    kings_position = king.coordinates
 
-    pieces.each do |piece|
-      if piece.is_a?(King) && piece.color == color
-        kings_position = piece.coordinates
-        break
-      end
-    end
-
-    kings_position
-
-    pieces.each do |piece|
-      if !piece.nil? && piece.color != color
-        return true if piece.moves.include?(kings_position)
-      end
+    pieces.select { |piece| !piece.is?(color) }.each do |piece|
+      return true if piece.moves.include?(kings_position)
     end
 
     false
@@ -78,10 +55,9 @@ class Board
     new_board = Board.new({empty: true})
 
     pieces.each do |piece|
-      next if piece.nil?
-
       new_board[piece.coordinates] = piece.class.new(new_board, piece.color, piece.coordinates.dup)
     end
+
     new_board
   end
 
@@ -95,7 +71,7 @@ class Board
 
   #UTILITY METHODS
   def pieces
-    @board.flatten.compact
+    all_pieces = @board.flatten.compact
   end
 
   def [](pos)
@@ -138,26 +114,32 @@ class Board
   end
 
   def white_graveyard_pawns
-    @graveyard.select { |piece| piece.is?(:white) && piece.class == Pawn }.map(&:render).map(&:strip)
+    @graveyard.select { |piece| piece.is?(:white) && piece.is_a?(Pawn) }.map(&:render).map(&:strip)
   end
 
   def white_graveyard_other
-    @graveyard.select do |piece|
-      piece.is?(:white) && piece.class != Pawn
-    end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
+    @graveyard.select { |piece| piece.is?(:white) && !piece.is_a?(Pawn) }.reverse.map(&:render).map(&:strip)
   end
 
   def black_graveyard_pawns
-    @graveyard.select { |piece| piece.is?(:black) && piece.class == Pawn }.map(&:render).map(&:strip)
+    @graveyard.select { |piece| piece.is?(:black) && piece.is_a?(Pawn) }.map(&:render).map(&:strip)
   end
 
   def black_graveyard_other
-    @graveyard.select do |piece|
-      piece.is?(:black) && piece.class != Pawn
-    end.sort { |piece| piece.value }.reverse.map(&:render).map(&:strip)
+    @graveyard.select { |piece| piece.is?(:black) && !piece.is_a?(Pawn) }.reverse.map(&:render).map(&:strip)
   end
 
   private
+    def validate_move(piece, end_pos)
+      if piece.nil?
+        raise ArgumentError.new "There is no piece at your start coordinate."
+      elsif !piece.moves.include?(end_pos)
+        raise ArgumentError.new "That piece is unable to move to your end position."
+      elsif !piece.valid_moves.include?(end_pos)
+        raise ArgumentError.new "Illegal move. You cannot leave/put your King in check."
+      end
+    end
+
     def create_game_board(options)
       @board = Array.new(8) { Array.new(8) }
       return if options[:empty]
@@ -186,8 +168,6 @@ class Board
           self[[0,column]] = King.new(self, :black, [0, column])
           self[[7,column]] = King.new(self, :white, [7, column])
         end
-
       end
-
     end
 end
