@@ -9,8 +9,8 @@ class Piece
     @board, @color, @coordinates = board, color, coordinates
   end
 
-  def valid_moves
-    self.moves.select do |move|
+  def valid_moves(moves = self.moves)
+    moves.select do |move|
       board_clone = self.board.dup
       board_clone.move!(self.coordinates, move)
 

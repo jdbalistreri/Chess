@@ -51,12 +51,14 @@ class King < Piece
 
   def left_castle_available
     left_rook_can_castle &&
-      [1,2,3].all? { |x| self.board[[@start_row, x]].nil? }
+      [1,2,3].all? { |x| self.board[[@start_row, x]].nil? } &&
+      !valid_moves([[@start_row, 3]]).empty?
   end
 
   def right_castle_available
     right_rook_can_castle &&
-      [5,6].all? { |x| self.board[[@start_row, x]].nil? }
+      [5,6].all? { |x| self.board[[@start_row, x]].nil? } &&
+      !valid_moves([[@start_row, 5]]).empty?
   end
 
   def left_rook_can_castle
@@ -73,7 +75,7 @@ class King < Piece
 
   def king_can_castle
     self.can_castle && true &&
-       !self.board.in_check?(self.color) ##!!!!THIS LINE IS THE PROBLEM
+       !self.board.in_check?(self.color)
     #the king does not move through a square attacked by the opponent
     #the king cannot be in check after castling
   end
