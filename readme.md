@@ -22,11 +22,11 @@
 - Individual pieces classes (e.g. [Queen][queen]) inherit from [Piece][piece] superclass
 
 ###Move Validation
-- Creates a deep dup of the board and tests validity of moves, for both feasibility and whether or not a move leaves a player's king in check
+- Creates a deep dup of the [board][board] and tests validity of moves, for both feasibility and whether or not a move leaves a player's king in check
 
 ###Outside Gems
-- Colorize gem adds color to rendered string output
-- Dispel gem captures keystrokes and re-renders board with updated state
+- [Colorize][colorize] gem adds color to rendered string output
+- [Dispel][dispel] gem captures keystrokes and re-renders board with updated state
 
 
 ##How to run
@@ -39,3 +39,6 @@
 [stepping-piece]: ./chess/pieces/stepping_piece.rb
 [queen]: ./chess/pieces/queen.rb
 [piece]: ./chess/pieces/piece.rb
+[board]: ./chess/board.rb
+[colorize]: https://github.com/fazibear/colorize
+[dispel]: https://github.com/grosser/dispel
