@@ -57,9 +57,8 @@ class King < Piece
   end
 
   def king_can_castle
-    self.can_castle
-    #only empty spaces in between
-    #king is not in check
+    self.can_castle &&
+      !self.board.in_check?(self.color)
     #the king does not move through a square attacked by the opponent
     #the king cannot be in check after castling
   end
