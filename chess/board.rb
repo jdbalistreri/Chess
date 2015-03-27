@@ -1,6 +1,7 @@
 # encoding: utf-8
 require "colorize"
 require_relative("chess.rb")
+require 'byebug'
 
 class Board
 
@@ -21,7 +22,7 @@ class Board
       piece.generated_deltas = nil
       piece.traditional_moves = nil
     end
-    
+
     piece.post_move_callback
   end
 
@@ -68,7 +69,13 @@ class Board
     new_board = Board.new({empty: true})
 
     pieces.each do |piece|
-      new_board[piece.coordinates] = piece.class.new(new_board, piece.color, piece.coordinates.dup)
+      if piece.is_a?(Pawn)
+        new_board[piece.coordinates] = piece.class.new(new_board, piece.color, piece.coordinates.dup, piece.moved)
+      elsif piece.is_a?(King)
+        new_board[piece.coordinates] = piece.class.new(new_board, piece.color, piece.coordinates.dup, piece.can_castle)
+      else
+        new_board[piece.coordinates] = piece.class.new(new_board, piece.color, piece.coordinates.dup)
+      end
     end
 
     new_board

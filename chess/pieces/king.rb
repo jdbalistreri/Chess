@@ -15,9 +15,9 @@ class King < Piece
 
     [1, -1],  [1, 0],  [1, 1] ]
 
-  def initialize(board, color, coordinates)
-    super
-    @can_castle = true
+  def initialize(board, color, coordinates, can_castle = true)
+    super(board, color, coordinates)
+    @can_castle = can_castle
     @start_row = coordinates[0]
   end
 
@@ -74,8 +74,7 @@ class King < Piece
   end
 
   def king_can_castle
-    self.can_castle && 
-       !self.board.in_check?(self.color)
+    self.can_castle && !self.board.in_check?(self.color)
   end
 
   def post_move_callback

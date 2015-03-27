@@ -1,5 +1,6 @@
 # encoding: utf-8
 require_relative("../chess.rb")
+require 'byebug'
 
 class Piece
   attr_accessor :coordinates, :value, :board, :generated_deltas, :traditional_moves

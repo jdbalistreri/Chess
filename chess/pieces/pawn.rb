@@ -4,11 +4,13 @@ require 'byebug'
 
 class Pawn < Piece
 
-  def initialize(board, color, coordinates)
-    super
+  attr_reader :moved
+
+  def initialize(board, color, coordinates, moved = false)
+    super(board, color, coordinates)
 
     @dy = self.is?(:black) ? 1 : -1
-    @moved = false
+    @moved = moved
   end
 
   def moves
