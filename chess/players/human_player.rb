@@ -4,9 +4,10 @@ class HumanPlayer
 
   attr_reader :piece_color
 
-  def initialize(name, piece_color)
+  def initialize(name, piece_color, board)
     @name = name
     @piece_color = piece_color
+    @board = board
   end
 
   def move_coordinates(board)

@@ -70,11 +70,11 @@ class King < Piece
   def right_rook_can_castle
     return @right_available if @right_available == false
     right_rook = self.board[[@start_row, 7]]
-    @right_available = right_rook && right_rook.can_castle
+    @right_available = right_rook.is_a?(Rook) && right_rook.can_castle
   end
 
   def king_can_castle
-    self.can_castle && true &&
+    self.can_castle && 
        !self.board.in_check?(self.color)
   end
 
